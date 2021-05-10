@@ -1,0 +1,20 @@
+###服务端口号
+server:
+  port: 8100
+###服务名称(服务注册到eureka名称)服务器端的名字一定要相同,client端的看实际情况
+spring:
+  application:
+    name: erueka-server
+###eureka 基本信息配置
+eureka:
+  instance:
+    ###注册到eurekaip地址
+    hostname: 127.0.0.1
+  client:
+    serviceUrl:
+      ###集群时多个地址直接逗号分隔
+      defaultZone: http://${eureka.instance.hostname}:8100/eureka/
+    ###因为自己是为注册中心，不需要自己注册自己(集群的时候是需要为true)
+    register-with-eureka: false
+    ###因为自己是为注册中心，不需要检索服务
+    fetch-registry: true

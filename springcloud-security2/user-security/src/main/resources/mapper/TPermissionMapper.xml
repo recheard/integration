@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.security.mapper.TPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.security.pojo.dao.TPermission">
+    <!--@mbg.generated-->
+    <!--@Table t_permission-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, code, description, url
+  </sql>
+
+    <select id="selectPermissionByUserId" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            t_permission p
+            LEFT JOIN t_role_permission rp ON p.id = rp.permission_id
+            LEFT JOIN t_user_role ur ON rp.role_id = ur.role_id
+        WHERE
+            ur.user_id = #{userId,jdbcType=BIGINT}
+    </select>
+    <select id="selectPermissionAndRoleById" resultType="java.util.HashMap">
+        SELECT
+            p.code, ur.role_id
+        FROM
+            t_permission p
+            LEFT JOIN t_role_permission rp ON p.id = rp.permission_id
+            LEFT JOIN t_user_role ur ON rp.role_id = ur.role_id
+        WHERE
+            ur.user_id = #{userId,jdbcType=BIGINT}
+    </select>
+</mapper>
